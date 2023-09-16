@@ -10,7 +10,7 @@
 
         onMount(async () => {
                 if (get(is_authenticated)) {
-                        console.log(`Already authenticated`);
+                        console.log(`+layout.svelte: Already authenticated`);
                         authenticated = true;
                         return;
                 }

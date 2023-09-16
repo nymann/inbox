@@ -1,14 +1,17 @@
 <script>
         import { goto } from "$app/navigation";
         import AuthixClient from "$lib/authix_client";
+        import CheckBox from "$lib/CheckBox.svelte";
         const client = new AuthixClient("http://127.0.0.1:8660");
         let email = "mark@mark.dk";
         let password = "Icon#Repulsive3#Washday";
-        let remember_me = false;
+        let remember_me = true;
 
         async function handleSubmit() {
                 if (await client.login(email, password, remember_me)) {
                         goto("/");
+                } else {
+                        alert(":-(");
                 }
         }
 </script>
@@ -35,13 +38,7 @@
                                         placeholder="Password"
                                 />
                         </div>
-                        <div class="checkbox-group">
-                                <input
-                                        type="checkbox"
-                                        bind:checked={remember_me}
-                                />
-                                <label for="remember_me">Remember me</label>
-                        </div>
+                        <CheckBox bind:checked={remember_me} />
                         <button type="submit">Log in</button>
                 </form>
                 <hr />
@@ -54,12 +51,14 @@
 
 <style>
         main {
+                margin-top: 48px;
                 display: grid;
                 grid-template-areas: ". container .";
                 grid-template-columns: 1fr max-content 1fr;
         }
         .container {
                 grid-area: container;
+                border-radius: 5px;
                 display: grid;
                 justify-items: center;
                 background-color: black;
@@ -71,20 +70,22 @@
                         CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva,
                         sans-serif, Helvetica, Arial, sans-serif;
         }
+        h1 {
+                font-size: 3rem;
+        }
         form {
                 display: grid;
                 gap: 1.5em;
+                width: 324px;
         }
         .label-group {
                 display: grid;
                 row-gap: 5px;
                 grid-template-columns: 1fr;
         }
-        .checkbox-group {
-                display: grid;
-                grid-template-columns: auto 1fr;
-                gap: 0.5em;
-                align-items: center;
+        button:hover {
+                transform: scale(1.04);
+                background-color: #1fdf64;
         }
         button {
                 padding: 10px;
@@ -96,19 +97,8 @@
                 background-color: #1ed760;
                 outline: none;
         }
-        button::before {
-                content: "";
-                border: 3px solid #000;
-                position: absolute;
-                top: -3px;
-                left: -3px;
-                right: -3px;
-                bottom: -3px;
-                border-radius: inherit;
-                pointer-events: none;
-        }
         button:focus {
-                border: 6px solid white;
+                box-shadow: 0 0 0 3px black, 0 0 0 6px white;
         }
         hr {
                 border-width: 1px medium medium;
@@ -119,8 +109,11 @@
                 padding-right: 200px;
                 justify-self: center;
         }
+
         span {
                 color: #a7a7a7;
+                font-size: 1rem;
+                font-weight: 400;
         }
         a {
                 text-decoration: underline;
@@ -132,15 +125,18 @@
         }
         input {
                 font-size: 1rem;
+                height: 30px;
                 padding: 8px;
+                display: block;
                 border-radius: 4px;
-                border: 1px solid #a7a7a7;
+                box-shadow: inset 0 0 0 1px #878787;
+                border: 0px;
                 color: white;
                 background: #1a1a1a;
         }
         input:focus {
                 outline: none;
-                border: 3px solid white;
+                box-shadow: inset 0 0 0 3px white;
         }
         input:hover {
                 border-color: white;
